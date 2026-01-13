@@ -64,6 +64,7 @@ public class AccountController : Controller
         result = await _userManager.AddToRoleAsync(newUser, "Member");
         if (!result.Succeeded)
         {
+            await _userManager.DeleteAsync(newUser);
             return BadRequest();
         }
 
@@ -102,7 +103,7 @@ public class AccountController : Controller
     public async Task<IActionResult> Logout()
     {
         await _signInManager.SignOutAsync();
-        return RedirectToAction(nameof(Login));
+        return RedirectToAction("Index","Home");
     }
 
     public async Task<IActionResult> CreateRoles()
